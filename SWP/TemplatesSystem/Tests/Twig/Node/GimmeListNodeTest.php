@@ -1,0 +1,275 @@
+<?php
+namespace SWP\TemplatesSystem\Tests\Twig\Node;
+
+use SWP\TemplatesSystem\Twig\Node\GimmeListNode;
+use SWP\TemplatesSystem\Twig\Extension\GimmeExtension;
+use SWP\TemplatesSystem\Gimme\Loader\ChainLoader;
+use SWP\TemplatesSystem\Gimme\Loader\ArticleLoader;
+use SWP\TemplatesSystem\Gimme\Context\Context;
+
+class GimmeListNodeTest extends \Twig_Test_NodeTestCase
+{
+    /**
+     * @dataProvider getTests
+     */
+    public function testCompile($node, $source, $environment = null)
+    {
+        $env = $this->getEnvironment();
+        $metaLoader = new ChainLoader();
+        $metaLoader->addLoader(new ArticleLoader(__DIR__));
+        $env->addExtension(new GimmeExtension(new Context(), $metaLoader));
+
+        $this->assertNodeCompilation($source, $node, $env);
+    }
+
+    public function testConstructor()
+    {
+        $variable = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('article', 1)));
+        $collectionType = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('articles', 1)));
+        $collectionFilters = new \Twig_Node_Expression_Filter(
+            new \Twig_Node(array($collectionType), array(), 0),
+            new \Twig_Node_Expression_Constant('start', 0),
+            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            0
+        );
+        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0), 
+            new \Twig_Node_Expression_Constant('New article', 0), 
+            0
+        );
+
+        $parameters = new \Twig_Node_Expression_Array([], 1);
+        $else = new \Twig_Node_Text('', 1);
+        $body = new \Twig_Node_Text('', 1);
+
+        $node = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ifExpression, $else, $body, 0, 'gimmelist');
+        $this->assertEquals($variable, $node->getNode('variable'));
+        $this->assertEquals($parameters, $node->getNode('parameters'));
+
+        $body = new \Twig_Node(array($body, new \Twig_Node_ForLoop(0, 'gimmelist')));
+        $body = new \Twig_Node_If(new \Twig_Node(array($ifExpression, $body)), null, 0, 'gimmelist');
+        $this->assertEquals($body, $node->getNode('body'));
+    }
+
+    public function getTests()
+    {
+        $variable = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('article', 1)));
+        $collectionType = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('articles', 1)));
+        $collectionFilters = new \Twig_Node_Expression_Filter(
+            new \Twig_Node(array($collectionType), array(), 0),
+            new \Twig_Node_Expression_Constant('start', 0),
+            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            0
+        );
+        $collectionFiltersFull = new \Twig_Node_Expression_Filter(
+                new \Twig_Node(array(new \Twig_Node_Expression_Filter(
+                    new \Twig_Node(array(
+                        new \Twig_Node(array(new \Twig_Node_Expression_Filter(
+                            new \Twig_Node(array($collectionType), array(), 0),
+                            new \Twig_Node_Expression_Constant('order', 0),
+                            new \Twig_Node(array(new \Twig_Node_Expression_Array(array(new \Twig_Node_Expression_Constant('id', 0), new \Twig_Node_Expression_Constant('desc', 0)), 0))),
+                            0
+                        )
+                        ), array(), 0)
+                    ), array(), 0),
+                    new \Twig_Node_Expression_Constant('limit', 0),
+                    new \Twig_Node(array(new \Twig_Node_Expression_Constant(10, 0))),
+                    0
+                )
+                ), array(), 0),
+            new \Twig_Node_Expression_Constant('start', 0),
+            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            0
+        );
+        $parameters = new \Twig_Node_Expression_Array([], 1);
+        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0), 
+            new \Twig_Node_Expression_Constant('New article', 0), 
+            0
+        );
+        $else = new \Twig_Node_Text('', 1);
+        $body = new \Twig_Node_Text('', 1);
+
+        $node1 = new GimmeListNode($variable, $collectionType, null, null, null, null, $body, 0, 'gimmelist');
+        $node2 = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ifExpression, $else, $body, 0, 'gimmelist');
+        $node3 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, null, null, null, $body, 0, 'gimmelist');
+        $node4 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, null, null, $body, 0, 'gimmelist');
+        $node5 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, $ifExpression, null, $body, 0, 'gimmelist');
+
+        return array(
+            array($node1, <<<EOF
+\$parameters = null;
+\$swpCollectionMetaLoader1 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader1->load("articles", \$parameters, \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$context["articles"] instanceof Countable)) {
+    \$length = count(\$context["articles"]);
+    \$context['loop']['revindex0'] = \$length - 1;
+    \$context['loop']['revindex'] = \$length;
+    \$context['loop']['length'] = \$length;
+    \$context['loop']['last'] = 1 === \$length;
+}
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    // line 1
+    echo "";
+    ++\$context['loop']['index0'];
+    ++\$context['loop']['index'];
+    \$context['loop']['first'] = false;
+    if (isset(\$context['loop']['length'])) {
+        --\$context['loop']['revindex0'];
+        --\$context['loop']['revindex'];
+        \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+    }
+}
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            ),
+            array($node2, <<<EOF
+\$context['_collection_type_filters'] = [];
+\$context['articles'] = null;
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, \$context["articles"], 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$parameters = array_merge(array(), \$context['_collection_type_filters']);
+\$swpCollectionMetaLoader2 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader2->load("articles", \$parameters, \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['_iterated'] = false;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+        // line 1
+        echo "";
+        \$context['_iterated'] = true;
+        ++\$context['loop']['index0'];
+        ++\$context['loop']['index'];
+        \$context['loop']['first'] = false;
+    }
+}
+if (!\$context['_iterated']) {
+    echo "";
+}
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+unset(\$context['_collection_type_filters']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            ),
+            array($node3, <<<EOF
+\$context['_collection_type_filters'] = [];
+\$context['articles'] = null;
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$parameters = \$context['_collection_type_filters'];
+\$swpCollectionMetaLoader3 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader3->load("articles", \$parameters, \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$context["articles"] instanceof Countable)) {
+    \$length = count(\$context["articles"]);
+    \$context['loop']['revindex0'] = \$length - 1;
+    \$context['loop']['revindex'] = \$length;
+    \$context['loop']['length'] = \$length;
+    \$context['loop']['last'] = 1 === \$length;
+}
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    // line 1
+    echo "";
+    ++\$context['loop']['index0'];
+    ++\$context['loop']['index'];
+    \$context['loop']['first'] = false;
+    if (isset(\$context['loop']['length'])) {
+        --\$context['loop']['revindex0'];
+        --\$context['loop']['revindex'];
+        \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+    }
+}
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+unset(\$context['_collection_type_filters']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            ),            
+            array($node4, <<<EOF
+\$context['_collection_type_filters'] = [];
+\$context['articles'] = null;
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$parameters = array_merge(array(), \$context['_collection_type_filters']);
+\$swpCollectionMetaLoader4 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader4->load("articles", \$parameters, \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$context["articles"] instanceof Countable)) {
+    \$length = count(\$context["articles"]);
+    \$context['loop']['revindex0'] = \$length - 1;
+    \$context['loop']['revindex'] = \$length;
+    \$context['loop']['length'] = \$length;
+    \$context['loop']['last'] = 1 === \$length;
+}
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    // line 1
+    echo "";
+    ++\$context['loop']['index0'];
+    ++\$context['loop']['index'];
+    \$context['loop']['first'] = false;
+    if (isset(\$context['loop']['length'])) {
+        --\$context['loop']['revindex0'];
+        --\$context['loop']['revindex'];
+        \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+    }
+}
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+unset(\$context['_collection_type_filters']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            ),            
+            array($node5, <<<EOF
+\$context['_collection_type_filters'] = [];
+\$context['articles'] = null;
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$parameters = array_merge(array(), \$context['_collection_type_filters']);
+\$swpCollectionMetaLoader5 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader5->load("articles", \$parameters, \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+        // line 1
+        echo "";
+        ++\$context['loop']['index0'];
+        ++\$context['loop']['index'];
+        \$context['loop']['first'] = false;
+    }
+}
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+unset(\$context['_collection_type_filters']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            )        );
+    }
+}
