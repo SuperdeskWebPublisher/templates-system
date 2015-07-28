@@ -1,5 +1,5 @@
 {
-    "name": "superdeskwebpublisher/templates-system",
+    "name": "swp/templates-system",
     "description": "Build fully functional templates system easy to use for your templators!",
     "keywords": ["twig", "templates", "cms", "gimme"],
     "homepage": "https://github.com/SuperdeskWebPublisher/templates-system",
