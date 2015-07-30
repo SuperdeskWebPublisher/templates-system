@@ -13,4 +13,4 @@ Features
 
 ## Documentation
 
-Full documentation can be found here: [http://templates-system.readthedocs.org/en/latest/](http://templates-system.readthedocs.org/en/latest/)
+Full documentation can be found here: [http://web-renderer.readthedocs.org/en/latest/templates_system.html](http://web-renderer.readthedocs.org/en/latest/templates_system.html)
