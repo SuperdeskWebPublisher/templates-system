@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the Superdesk Web Publisher Templates System
  *
@@ -99,7 +100,7 @@ EOF
 
     public function testBrokenTemplate()
     {
-         $loader = new \Twig_Loader_Array(array(
+        $loader = new \Twig_Loader_Array(array(
             'error_gimme' => "{% gimme article {id: 1} %}{{ article.title }}{% endgimme %}",
         ));
         $metaLoader = new ChainLoader();
