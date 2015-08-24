@@ -20,7 +20,10 @@ use SWP\TemplatesSystem\Gimme\Meta\Meta;
 
 class ContextSpec extends ObjectBehavior
 {
-    function let(Meta $meta)
+    /**
+    * @param \SWP\TemplatesSystem\Gimme\Meta\Meta $meta
+    */
+    function let($meta)
     {}
 
     function it_is_initializable()

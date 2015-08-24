@@ -21,10 +21,12 @@ use SWP\TemplatesSystem\Gimme\Meta\Meta;
 
 class ChainLoaderSpec extends ObjectBehavior
 {
-    function let(
-        ArticleLoader $articleLoader,
-        Meta $meta
-    ){
+    /**
+     * @param  \SWP\TemplatesSystem\Gimme\Loader\ArticleLoader $articleLoader
+     * @param  \SWP\TemplatesSystem\Gimme\Meta\Meta            $meta
+     */
+    function let($articleLoader, $meta)
+    {
         $articleLoader->isSupported(Argument::exact('article'))->willReturn(true);
         $articleLoader->isSupported(Argument::exact('article2'))->willReturn(false);
         $articleLoader->load(Argument::exact('article'), Argument::type('array'), \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->willReturn($meta);
