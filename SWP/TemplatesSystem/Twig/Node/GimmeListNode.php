@@ -23,6 +23,10 @@ class GimmeListNode extends \Twig_Node
 
     protected $loop;
 
+    /**
+     * @param integer $lineno
+     * @param string $tag
+     */
     public function __construct(\Twig_Node $variable, \Twig_Node $collectionType, \Twig_Node_Expression_Filter $collectionFilters = null, \Twig_Node_Expression $parameters = null, \Twig_Node_Expression $ifExpression = null, \Twig_NodeInterface $else = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
         $body = new \Twig_Node(array($body, $this->loop = new \Twig_Node_ForLoop($lineno, $tag)));
