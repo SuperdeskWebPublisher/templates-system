@@ -58,10 +58,12 @@ class Context implements \ArrayAccess
     /**
      * Register new meta type, registration is required before setting new value for meta
      *
-     * @param string     $name Name of meta
-     * @param  SWP\TemplatesSystem\Gimme\Meta\Meta|null $meta Meta object
+     * @param string                                    $name Name of meta
+     * @param SWP\TemplatesSystem\Gimme\Meta\Meta|null  $meta Meta object
      *
-     * @return bool|Exception  true if registered successfully, Exception if already registered
+     * @return bool  if registered successfully
+     *
+     * @throws \Exception if already registered
      */
     public function registerMeta($name, Meta $meta = null)
     {
