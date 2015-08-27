@@ -21,8 +21,8 @@ use SWP\TemplatesSystem\Gimme\Meta\Meta;
 class ContextSpec extends ObjectBehavior
 {
     /**
-    * @param \SWP\TemplatesSystem\Gimme\Meta\Meta $meta
-    */
+     * @param \SWP\TemplatesSystem\Gimme\Meta\Meta $meta
+     */
     function let($meta)
     {}
 
@@ -47,5 +47,23 @@ class ContextSpec extends ObjectBehavior
         $this->registerMeta('item', $meta)->shouldReturn(true);
         $this->item = $meta;
         $this->item->shouldReturn($meta);
+    }
+
+    function it_should_save_and_read_current_page_info()
+    {
+        $currentPage = [
+            "id" => 1,
+            "name" => "About",
+            "type" => 1,
+            "slug" => "about-us",
+            "templateName" => "static.html.twig",
+            "externalUrl" => null,
+            "contentPath" => "/content/about-us",
+            "articles" => null,
+            "route_name" => "swp_page_about",
+        ];
+
+        $this->setCurrentPage($currentPage)->shouldReturn($this);
+        $this->getCurrentPage()->shouldReturn($currentPage);
     }
 }

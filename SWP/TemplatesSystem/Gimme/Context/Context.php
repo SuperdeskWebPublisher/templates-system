@@ -19,19 +19,51 @@ use SWP\TemplatesSystem\Gimme\Meta\Meta;
 class Context implements \ArrayAccess
 {
     /**
+     * Array with current page informations
+     * @var string[]
+     */
+    protected $currentPage;
+
+    /**
      * Array will all registered meta types
      *
-     * @var array
+     * @var \SWP\TemplatesSystem\Gimme\Meta\Meta[]
      */
     protected $registeredMeta = [];
 
     /**
+     * Set current context page informations
+     *
+     * @param string[] $currentPage
+     *
+     * @return self
+     */
+    public function setCurrentPage($currentPage)
+    {
+        $this->currentPage = $currentPage;
+
+        return $this;
+    }
+
+    /**
+     * Get current context page informations
+     *
+     * @return string[]
+     */
+    public function getCurrentPage()
+    {
+        return $this->currentPage;
+    }
+
+    /**
      * Register new meta type, registration is required before setting new value for meta
      *
-     * @param string     $name Name of meta
-     * @param  Meta|null $meta Meta object
+     * @param string                                    $name Name of meta
+     * @param SWP\TemplatesSystem\Gimme\Meta\Meta|null  $meta Meta object
      *
-     * @return bool|Exception  true if registered successfully, Exception if already registered 
+     * @return bool  if registered successfully
+     *
+     * @throws \Exception if already registered
      */
     public function registerMeta($name, Meta $meta = null)
     {
