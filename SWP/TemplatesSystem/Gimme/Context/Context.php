@@ -35,10 +35,14 @@ class Context implements \ArrayAccess
      * Set current context page informations
      *
      * @param string[] $currentPage
+     *
+     * @return self
      */
     public function setCurrentPage($currentPage)
     {
         $this->currentPage = $currentPage;
+
+        return $this;
     }
 
     /**
