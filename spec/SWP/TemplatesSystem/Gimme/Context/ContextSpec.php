@@ -21,8 +21,8 @@ use SWP\TemplatesSystem\Gimme\Meta\Meta;
 class ContextSpec extends ObjectBehavior
 {
     /**
-    * @param \SWP\TemplatesSystem\Gimme\Meta\Meta $meta
-    */
+     * @param \SWP\TemplatesSystem\Gimme\Meta\Meta $meta
+     */
     function let($meta)
     {}
 
