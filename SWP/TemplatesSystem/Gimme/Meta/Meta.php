@@ -57,18 +57,22 @@ class Meta
             case $this->isJson($values):
                 $this->fillFromJson($values);
                 break;
+
+            case is_object($values):
+                $this->fillFromObject($values);
+                break;
         }
     }
 
     /**
      * Fill Meta from array. Array must have property names and keys.
-     * 
+     *
      * @param array $values Array with propery names as keys
      *
      * @return bool
      */
     private function fillFromArray(array $values)
-    {   
+    {
         foreach ($this->getExposedProperties($values) as $key => $propertyValue) {
             $this->$key = $propertyValue;
         }
@@ -91,6 +95,23 @@ class Meta
     }
 
     /**
+     * Fill Meta from object. Object must have public getters for properties.
+     *
+     * @param array $values Object with public getters for properties
+     *
+     * @return bool
+     */
+    private function fillFromObject($values)
+    {
+        foreach ($this->configuration['properties'] as $key => $propertyValue) {
+            $getterName = 'get'.ucfirst($key);
+            $this->$key = $values->$getterName();
+        }
+
+        return true;
+    }
+
+    /**
      * Check if string is JSON
      *
      * @param  string
@@ -99,9 +120,13 @@ class Meta
      */
     private function isJson($string)
     {
-        json_decode($string);
+        if (is_string($string)) {
+            json_decode($string);
 
-        return (json_last_error() == JSON_ERROR_NONE);
+            return (json_last_error() == JSON_ERROR_NONE);
+        }
+
+        return false;
     }
 
     /**
@@ -129,7 +154,7 @@ class Meta
 
     /**
      * Use to_string property from configuration if provided, json with exposed properties otherwise
-     * 
+     *
      * @return string
      */
     public function __toString()
@@ -143,5 +168,10 @@ class Meta
         }
 
         return json_encode($this->getExposedProperties());
+    }
+
+    public function getConfiguration()
+    {
+        return $this->configuration;
     }
 }
