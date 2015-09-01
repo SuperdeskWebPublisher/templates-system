@@ -49,26 +49,38 @@ class Meta
         $this->configuration = array_shift($this->configuration);
         $this->values = $values;
 
-        switch ($values) {
-            case is_array($values):
-                $this->fillFromArray($values);
-                break;
+        $this->fillMeta($values);
+    }
 
-            case $this->isJson($values):
-                $this->fillFromJson($values);
-                break;
+    /**
+     * Fill Meta from diffirent kind of data types
+     *
+     * @param mixed $values
+     *
+     * @return bool
+     */
+    private function fillMeta($values)
+    {
+        if (is_array($values)) {
+            return $this->fillFromArray($values);
+        } else if (is_string($values) && $this->isJson($values)) {
+            return $this->fillFromJson($values);
+        } else if (is_object($values)) {
+            return $this->fillFromObject($values);
         }
+
+        return false;
     }
 
     /**
      * Fill Meta from array. Array must have property names and keys.
-     * 
+     *
      * @param array $values Array with propery names as keys
      *
      * @return bool
      */
     private function fillFromArray(array $values)
-    {   
+    {
         foreach ($this->getExposedProperties($values) as $key => $propertyValue) {
             $this->$key = $propertyValue;
         }
@@ -86,6 +98,23 @@ class Meta
     private function fillFromJson($values)
     {
         $this->fillFromArray(json_decode($values, true));
+
+        return true;
+    }
+
+    /**
+     * Fill Meta from object. Object must have public getters for properties.
+     *
+     * @param object $values Object with public getters for properties
+     *
+     * @return bool
+     */
+    private function fillFromObject($values)
+    {
+        foreach ($this->configuration['properties'] as $key => $propertyValue) {
+            $getterName = 'get'.ucfirst($key);
+            $this->$key = $values->$getterName();
+        }
 
         return true;
     }
@@ -129,7 +158,7 @@ class Meta
 
     /**
      * Use to_string property from configuration if provided, json with exposed properties otherwise
-     * 
+     *
      * @return string
      */
     public function __toString()
@@ -143,5 +172,10 @@ class Meta
         }
 
         return json_encode($this->getExposedProperties());
+    }
+
+    public function getConfiguration()
+    {
+        return $this->configuration;
     }
 }

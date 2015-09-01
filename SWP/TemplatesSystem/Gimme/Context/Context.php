@@ -80,27 +80,33 @@ class Context implements \ArrayAccess
         throw new \Exception(sprintf("Meta with name %s is already registered", $name));
     }
 
+    public function getRegisteredMeta()
+    {
+        return $this->registeredMeta;
+    }
+
     public function offsetSet($name, $meta) {
-        if (array_key_exists($name, $this->registeredMeta)) {
-            $this->registeredMeta[$name] = $meta;
+        if (in_array($name, $this->registeredMeta)) {
+            $this->$name = $meta;
         }
 
         return true;
     }
 
     public function offsetExists($name) {
-        return isset($this->registeredMeta[$name]);
+        return in_array($name, $this->registeredMeta);
     }
 
     public function offsetUnset($name) {
         unset($this->registeredMeta[$name]);
+        usent($this->$name);
 
         return true;
     }
 
     public function offsetGet($name) {
-        if (array_key_exists($name, $this->registeredMeta)) {
-            return $this->registeredMeta[$name];
+        if (in_array($name, $this->registeredMeta)) {
+            return $this->$name;
         }
 
         return false;

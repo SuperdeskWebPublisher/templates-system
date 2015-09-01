@@ -36,7 +36,7 @@ class GimmeListNode extends \Twig_Node
         }
 
         parent::__construct(array(
-            'variable' => $variable, 
+            'variable' => $variable,
             'collectionType' => $collectionType,
             'collectionFilters' => $collectionFilters,
             'parameters' => $parameters,
@@ -98,7 +98,7 @@ class GimmeListNode extends \Twig_Node
                 ->write(");\n")
             ;
 
-            if (!$this->getAttribute('ifexpr')) {
+            if (!$this->getAttribute('ifexpr') && $this->getNode('collectionType')) {
                 $compiler
                     ->write("if (is_array(")->subcompile($this->getNode('collectionType'))->raw(") || (is_object(")->subcompile($this->getNode('collectionType'))->raw(") && ")->subcompile($this->getNode('collectionType'))->raw(" instanceof Countable)) {\n")
                     ->indent()
@@ -117,18 +117,20 @@ class GimmeListNode extends \Twig_Node
         $this->loop->setAttribute('with_loop', $this->getAttribute('with_loop'));
         $this->loop->setAttribute('ifexpr', $this->getAttribute('ifexpr'));
 
-        $compiler
-            ->write("foreach (")
-            ->subcompile($this->getNode('collectionType'))
-            ->raw(' as $_key')
-            ->raw(" => ")
-            ->subcompile($this->getNode('variable'))
-            ->raw(") {\n")
-            ->indent()
-            ->subcompile($this->getNode('body'))
-            ->outdent()
-            ->write("}\n")
-        ;
+        if (null !== $this->getNode('collectionType')) {
+            $compiler
+                ->write("foreach (")
+                ->subcompile($this->getNode('collectionType'))
+                ->raw(' as $_key')
+                ->raw(" => ")
+                ->subcompile($this->getNode('variable'))
+                ->raw(") {\n")
+                ->indent()
+                ->subcompile($this->getNode('body'))
+                ->outdent()
+                ->write("}\n")
+            ;
+        }
 
         if (null !== $this->getNode('else')) {
             $compiler
