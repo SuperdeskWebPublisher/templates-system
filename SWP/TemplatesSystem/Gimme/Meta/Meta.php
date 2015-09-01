@@ -35,8 +35,8 @@ class Meta
     /**
      * Create Meta class from provided configuration and values
      *
-     * @param string       $configuration
-     * @param string|array $values
+     * @param string                $configuration
+     * @param string|array|object   $values
      */
     public function __construct($configuration, $values)
     {
