@@ -49,19 +49,27 @@ class Meta
         $this->configuration = array_shift($this->configuration);
         $this->values = $values;
 
-        switch ($values) {
-            case is_array($values):
-                $this->fillFromArray($values);
-                break;
+        $this->fillMeta($values);
+    }
 
-            case $this->isJson($values):
-                $this->fillFromJson($values);
-                break;
-
-            case is_object($values):
-                $this->fillFromObject($values);
-                break;
+    /**
+     * Fill Meta from diffirent kind of data types
+     *
+     * @param mixed $values
+     *
+     * @return bool
+     */
+    private function fillMeta($values)
+    {
+        if (is_array($values)) {
+            return $this->fillFromArray($values);
+        } else if (is_string($values) && $this->isJson($values)) {
+            return $this->fillFromJson($values);
+        } else if (is_object($values)) {
+            return $this->fillFromObject($values);
         }
+
+        return false;
     }
 
     /**
@@ -97,7 +105,7 @@ class Meta
     /**
      * Fill Meta from object. Object must have public getters for properties.
      *
-     * @param array $values Object with public getters for properties
+     * @param object $values Object with public getters for properties
      *
      * @return bool
      */
@@ -120,13 +128,9 @@ class Meta
      */
     private function isJson($string)
     {
-        if (is_string($string)) {
-            json_decode($string);
+        json_decode($string);
 
-            return (json_last_error() == JSON_ERROR_NONE);
-        }
-
-        return false;
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 
     /**
