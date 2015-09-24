@@ -178,4 +178,9 @@ class Meta
     {
         return $this->configuration;
     }
+
+    public function getValues()
+    {
+        return $this->values;
+    }
 }
