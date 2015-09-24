@@ -70,7 +70,7 @@ class GimmeListNode extends \Twig_Node
             }
         } else {
             if (!is_null($this->getNode('parameters'))) {
-                $compiler->raw("\$parameters = ")->subcompile($this->getNode('parameters'))->raw(';\n');
+                $compiler->raw("\$parameters = ")->subcompile($this->getNode('parameters'))->raw(";\n");
             } else {
                 $compiler->raw("\$parameters = null;\n");
             }

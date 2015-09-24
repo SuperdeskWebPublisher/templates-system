@@ -45,8 +45,8 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
             new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
             0
         );
-        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0), 
-            new \Twig_Node_Expression_Constant('New article', 0), 
+        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0),
+            new \Twig_Node_Expression_Constant('New article', 0),
             0
         );
 
@@ -94,8 +94,8 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
             0
         );
         $parameters = new \Twig_Node_Expression_Array([], 1);
-        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0), 
-            new \Twig_Node_Expression_Constant('New article', 0), 
+        $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0),
+            new \Twig_Node_Expression_Constant('New article', 0),
             0
         );
         $else = new \Twig_Node_Text('', 1);
@@ -215,7 +215,7 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),            
+            ),
             array($node4, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
@@ -254,7 +254,7 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),            
+            ),
             array($node5, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
