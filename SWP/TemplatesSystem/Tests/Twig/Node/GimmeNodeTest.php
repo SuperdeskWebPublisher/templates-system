@@ -52,7 +52,7 @@ class GimmeNodeTest extends \Twig_Test_NodeTestCase
         return array(
             array($node1, <<<EOF
 // line 1
-\$swpMetaLoader3 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$swpMetaLoader3 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["article"] = \$swpMetaLoader3->load("article", array());
 if (\$context["article"] !== false) {
     echo "Test body";
@@ -62,7 +62,7 @@ EOF
             ),
             array($node2, <<<EOF
 // line 2
-\$swpMetaLoader4 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$swpMetaLoader4 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["article"] = \$swpMetaLoader4->load("article", null);
 if (\$context["article"] !== false) {
     echo "Test body";
@@ -72,7 +72,7 @@ EOF
             ),
             array($node3, <<<EOF
 // line 3
-\$swpMetaLoader5 = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();
+\$swpMetaLoader5 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["article"] = \$swpMetaLoader5->load("article", array("foo" => true));
 if (\$context["article"] !== false) {
     echo "Test body";

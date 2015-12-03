@@ -42,7 +42,7 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write("\$swpMetaLoader".$i." = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();\n")
+            ->write("\$swpMetaLoader".$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
             ->write("")->subcompile($this->getNode('annotation'))->raw(" = \$swpMetaLoader".$i."->load(\"")->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw("\", ");
                 if (!is_null($this->getNode('parameters'))) {
                     $compiler->subcompile($this->getNode('parameters'));
