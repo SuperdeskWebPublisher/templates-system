@@ -257,11 +257,11 @@ class Container implements ContainerInterface
     /**
      * Sets the value of data.
      *
-     * @param ArrayCollection $data the data
+     * @param array $data the data
      *
      * @return self
      */
-    public function setData(ArrayCollection $data)
+    public function setData($data = [])
     {
         $this->data = $data;
 

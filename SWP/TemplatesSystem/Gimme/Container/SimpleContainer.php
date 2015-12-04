@@ -53,7 +53,7 @@ class SimpleContainer
     public function hasWidgets()
     {
         // widgets are not yet implemented
-        return false;
+        return;
     }
 
     public function renderWidgets()
