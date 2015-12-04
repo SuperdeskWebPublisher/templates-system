@@ -39,7 +39,7 @@ class SimpleContainer
 
     public function renderOpenTag()
     {
-        echo $this->twig->render('open_tag', array(
+        return $this->twig->render('open_tag', array(
             'id' => $this->containerEntity->getId(),
             'class' => $this->containerEntity->getCssClass(),
             'height' => $this->containerEntity->getHeight(),
@@ -69,6 +69,6 @@ class SimpleContainer
 
     public function renderCloseTag()
     {
-        echo $this->twig->render('close_tag');
+        return $this->twig->render('close_tag');
     }
 }

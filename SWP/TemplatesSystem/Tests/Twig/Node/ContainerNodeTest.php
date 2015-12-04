@@ -52,13 +52,13 @@ class ContainerNodeTest extends \Twig_Test_NodeTestCase
 \$containerService = \$this->env->getExtension('swp_container')->getContainerService();
 \$container = \$containerService->getContainer("container_name", array());
 if (\$container->isVisible()) {
-    \$container->renderOpenTag();
+    echo \$container->renderOpenTag();
     if (\$container->hasWidgets()) {
-        \$container->renderWidgets();
+        echo \$container->renderWidgets();
     } else {
         echo "Test body";
     }
-    \$container->renderCloseTag();
+    echo \$container->renderCloseTag();
 }
 unset(\$container);unset(\$containerService);
 EOF
@@ -68,13 +68,13 @@ EOF
 \$containerService = \$this->env->getExtension('swp_container')->getContainerService();
 \$container = \$containerService->getContainer("container_name", array());
 if (\$container->isVisible()) {
-    \$container->renderOpenTag();
+    echo \$container->renderOpenTag();
     if (\$container->hasWidgets()) {
-        \$container->renderWidgets();
+        echo \$container->renderWidgets();
     } else {
         echo "Test body";
     }
-    \$container->renderCloseTag();
+    echo \$container->renderCloseTag();
 }
 unset(\$container);unset(\$containerService);
 EOF
@@ -84,13 +84,13 @@ EOF
 \$containerService = \$this->env->getExtension('swp_container')->getContainerService();
 \$container = \$containerService->getContainer("container_name", array("foo" => true));
 if (\$container->isVisible()) {
-    \$container->renderOpenTag();
+    echo \$container->renderOpenTag();
     if (\$container->hasWidgets()) {
-        \$container->renderWidgets();
+        echo \$container->renderWidgets();
     } else {
         echo "Test body";
     }
-    \$container->renderCloseTag();
+    echo \$container->renderCloseTag();
 }
 unset(\$container);unset(\$containerService);
 EOF

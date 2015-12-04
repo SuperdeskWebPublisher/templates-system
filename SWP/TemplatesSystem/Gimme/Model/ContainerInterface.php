@@ -14,8 +14,6 @@
 
 namespace SWP\TemplatesSystem\Gimme\Model;
 
-use SWP\TemplatesSystem\Gimme\Model\ContainerDataInterface;
-
 /**
  * Container Interface.
  */
@@ -66,7 +64,7 @@ interface ContainerInterface
     /**
      * Get container data
      *
-     * @return ContainerDataInterface
+     * @return array
      */
     public function getData();
 }
