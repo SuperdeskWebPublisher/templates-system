@@ -17,7 +17,7 @@ namespace SWP\TemplatesSystem\Twig\Extension;
 use SWP\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 use SWP\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
 
-class GimmeExtension extends \Twig_Extension
+class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     protected $loader;
 

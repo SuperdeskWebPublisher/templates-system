@@ -22,7 +22,7 @@
         "phpunit/phpunit": "4.6.*",
         "phpspec/phpspec": "~2.0",
         "phpspec/prophecy": "1.5.x-dev",
-        "twig/twig": "1.18.*@dev"
+        "twig/twig": "~1.0"
     },
     "autoload": {
         "psr-0": { "SWP\\TemplatesSystem": "" }

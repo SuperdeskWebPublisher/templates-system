@@ -76,7 +76,7 @@ class GimmeListNode extends \Twig_Node
             }
         }
 
-        $compiler->write("\$swpCollectionMetaLoader".$i." = \$this->getEnvironment()->getExtension('swp_gimme')->getLoader();\n")
+        $compiler->write("\$swpCollectionMetaLoader".$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
             ->write("")->subcompile($this->getNode('collectionType'))->raw(" = twig_ensure_traversable(\$swpCollectionMetaLoader".$i."->load(\"")->raw($collectionTypeName)->raw("\", ");
                 $compiler->raw("\$parameters");
                 $compiler->raw(", \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
