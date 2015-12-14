@@ -22,6 +22,8 @@ class SimpleContainer
 
     protected $twig;
 
+    protected $widgets;
+
     const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for key, value in data %} data-{{key}}="{{value}}"{% endfor %} >';
     const CLOSE_TAG_TEMPLATE = '</div>';
 
@@ -29,12 +31,14 @@ class SimpleContainer
     {
         $this->containerEntity = $containerEntity;
         $this->twig = new \Twig_Environment(new \Twig_Loader_Array(['open_tag' => self::OPEN_TAG_TEMPLATE, 'close_tag' => self::CLOSE_TAG_TEMPLATE]));
+        $this->widgets = array();
     }
 
-    public function setWidgets()
+    public function setWidgets($widgets)
     {
-        // widgets are not yet implemented
-        return;
+        $this->widgets = $widgets;
+
+        return $this;
     }
 
     public function renderOpenTag()
@@ -52,14 +56,21 @@ class SimpleContainer
 
     public function hasWidgets()
     {
-        // widgets are not yet implemented
-        return;
+        if (count($this->widgets) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public function renderWidgets()
     {
-        // widgets are not yet implemented
-        return;
+        $widgetsOutput = [];
+        foreach ($this->widgets as $widget) {
+            $widgetsOutput[] = $widget->render();
+        }
+
+        return implode("\n", $widgetsOutput);
     }
 
     public function isVisible()
