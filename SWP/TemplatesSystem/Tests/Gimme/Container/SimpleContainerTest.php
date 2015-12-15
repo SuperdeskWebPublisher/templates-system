@@ -15,6 +15,8 @@
 namespace SWP\TemplatesSystem\Tests\Gimme\Container;
 
 use SWP\TemplatesSystem\Gimme\Container\SimpleContainer;
+use SWP\TemplatesSystem\Tests\Gimme\Model\Widget;
+use SWP\TemplatesSystem\Gimme\Widget\HtmlWidget;
 
 class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,8 +58,16 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testWidgets()
     {
-    	$this->assertEquals(null, $this->container->setWidgets());
-    	$this->assertEquals(null, $this->container->hasWidgets());
-    	$this->assertEquals(null, $this->container->renderWidgets());
+        $widgetEntity = new Widget();
+        $widgetEntity->setParameters(['html_body' => 'simple html body']);
+        $widget = new HtmlWidget($widgetEntity);
+
+    	$this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
+    	$this->assertEquals($this->container->hasWidgets(), true);
+    	$this->assertEquals($this->container->renderWidgets(), <<<EOF
+simple html body
+simple html body
+EOF
+        );
     }
 }
