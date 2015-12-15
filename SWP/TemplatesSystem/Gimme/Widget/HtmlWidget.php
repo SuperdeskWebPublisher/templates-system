@@ -14,10 +14,12 @@
 
 namespace SWP\TemplatesSystem\Gimme\Widget;
 
+use SWP\TemplatesSystem\Gimme\Model\WidgetInterface as ModelWidgetInterface;
+
 /**
  * Widgets idea
  * * Every widget have it's own clas with widget implementation
- * * Every widget have his own parameters 
+ * * Every widget have his own parameters
  */
 
 /**
@@ -27,7 +29,7 @@ class HtmlWidget implements WidgetInterface
 {
     protected $widgetModel;
 
-    public function __construct($widgetModel)
+    public function __construct(ModelWidgetInterface $widgetModel)
     {
         $this->widgetModel = $widgetModel;
     }
@@ -39,7 +41,11 @@ class HtmlWidget implements WidgetInterface
      */
     public function render()
     {
-        return $this->widgetModel->getParameters()['html_body'];
+        if (array_key_exists('html_body', $this->widgetModel->getParameters())) {
+            return $this->widgetModel->getParameters()['html_body'];
+        }
+
+        return;
     }
 
     /**
