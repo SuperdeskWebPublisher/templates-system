@@ -7,9 +7,8 @@ php:
 
 before_script:
   - composer install
-  - sh -c "cd ext/twig && phpize && ./configure --enable-twig && make && make install"
+  - sh -c "cd vendor/twig/twig/ext/twig && phpize && ./configure --enable-twig && make && make install"
   - echo "extension=twig.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-
 
 script:
   - vendor/bin/phpspec run
