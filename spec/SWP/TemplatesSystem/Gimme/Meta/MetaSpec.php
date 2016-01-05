@@ -16,12 +16,19 @@ namespace spec\SWP\TemplatesSystem\Gimme\Meta;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\Yaml\Parser;
 
 class MetaSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(__DIR__ . '/Resources/meta/article.yml', '{
+        if (!is_readable(__DIR__ . '/Resources/meta/article.yml')) {
+            throw new \InvalidArgumentException("Configuration file is not readable for parser");
+        }
+        $yaml = new Parser();
+        $configuration = $yaml->parse(file_get_contents(__DIR__ . '/Resources/meta/article.yml'));
+
+        $this->beConstructedWith($configuration, '{
             "title": "New article",
             "keywords": "lorem, ipsum, dolor, sit, ame",
             "dont_expose_it": "this should be not exposed"
