@@ -29,7 +29,7 @@ class Widget implements WidgetInterface
     ];
 
     /**
-     * @var int
+     * @var integer
      */
     protected $id;
 
@@ -49,7 +49,7 @@ class Widget implements WidgetInterface
     protected $visible;
 
     /**
-     * @var []
+     * @var array
      */
     protected $parameters;
 
@@ -62,7 +62,7 @@ class Widget implements WidgetInterface
     /**
      * Get id.
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -72,7 +72,7 @@ class Widget implements WidgetInterface
     /**
      * Set id.
      *
-     * @param string $id
+     * @param integer $id
      *
      * @return self
      */
@@ -162,7 +162,7 @@ class Widget implements WidgetInterface
     /**
      * Gets the value of parameters.
      *
-     * @return []
+     * @return array
      */
     public function getParameters()
     {
@@ -172,7 +172,7 @@ class Widget implements WidgetInterface
     /**
      * Sets the value of parameters.
      *
-     * @param [] $parameters the parameters
+     * @param array $parameters the parameters
      *
      * @return self
      */

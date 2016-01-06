@@ -52,7 +52,7 @@ class ArticleLoader implements LoaderInterface
             throw new \InvalidArgumentException("Configuration file is not readable for parser");
         }
         $yaml = new Parser();
-        $configuration = $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
+        $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
 
         if ($responseType === LoaderInterface::SINGLE) {
             return new Meta($configuration, array(

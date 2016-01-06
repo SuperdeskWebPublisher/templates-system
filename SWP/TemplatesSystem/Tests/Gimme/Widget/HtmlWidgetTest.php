@@ -19,7 +19,7 @@ use SWP\TemplatesSystem\Gimme\Widget\HtmlWidget;
 
 class HtmlWidgetTest extends \PHPUnit_Framework_TestCase
 {
-    private $container;
+    private $widget;
 
     public function setUp()
     {
