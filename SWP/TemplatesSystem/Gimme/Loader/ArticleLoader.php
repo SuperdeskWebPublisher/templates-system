@@ -15,6 +15,7 @@
 namespace SWP\TemplatesSystem\Gimme\Loader;
 
 use SWP\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\Yaml\Parser;
 
 class ArticleLoader implements LoaderInterface
 {
@@ -47,20 +48,26 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters, $responseType)
     {
+        if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
+            throw new \InvalidArgumentException("Configuration file is not readable for parser");
+        }
+        $yaml = new Parser();
+        $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
+
         if ($responseType === LoaderInterface::SINGLE) {
-            return new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+            return new Meta($configuration, array(
                 'title' => 'New article',
                 'keywords' => 'lorem, ipsum, dolor, sit, amet',
                 'don\'t expose it' => 'this should be not exposed',
             ));
         } else if ($responseType === LoaderInterface::COLLECTION) {
             return array(
-                new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+                new Meta($configuration, array(
                     'title' => 'New article 1',
                     'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
                 )),
-                new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+                new Meta($configuration, array(
                     'title' => 'New article 2',
                     'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',

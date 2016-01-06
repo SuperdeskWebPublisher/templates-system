@@ -14,8 +14,6 @@
 
 namespace SWP\TemplatesSystem\Gimme\Meta;
 
-use Symfony\Component\Yaml\Parser;
-
 class Meta
 {
     /**
@@ -35,17 +33,12 @@ class Meta
     /**
      * Create Meta class from provided configuration and values
      *
-     * @param string                $configuration
+     * @param array                $configuration
      * @param string|array|object   $values
      */
-    public function __construct($configuration, $values)
+    public function __construct(array $configuration, $values)
     {
-        if (!is_readable($configuration)) {
-            throw new \InvalidArgumentException("Configuration file is not readable for parser");
-        }
-
-        $yaml = new Parser();
-        $this->configuration = array_slice($yaml->parse(file_get_contents($configuration)), 0, 1);
+        $this->configuration = array_slice($configuration, 0, 1);
         $this->configuration = array_shift($this->configuration);
         $this->values = $values;
 
