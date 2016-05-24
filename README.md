@@ -13,4 +13,4 @@ Features
 
 ## Documentation
 
-Full documentation can be found here: [http://web-renderer.readthedocs.org/en/latest/templates_system.html](http://web-renderer.readthedocs.org/en/latest/templates_system.html)
+Full documentation can be found here: [http://superdesk-web-publisher.readthedocs.io/en/latest/templates_system.html](http://superdesk-web-publisher.readthedocs.io/en/latest/templates_system.html)
