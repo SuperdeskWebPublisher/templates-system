@@ -13,6 +13,8 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+
 /**
  * ChainLoader is a loader that calls other loaders to load Meta objects.
  */
